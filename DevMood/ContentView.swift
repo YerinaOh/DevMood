@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import RxSwift
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -16,7 +17,15 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
 
+    var viewModel: ViewModelType
+    var disposeBag = DisposeBag()
+    
+    init(viewModel: ViewModelType) {
+        self.viewModel = viewModel
+    }
+    
     var body: some View {
+        Text("moodd")
         List {
             ForEach(items) { item in
                 Text("Item at \(item.timestamp!, formatter: itemFormatter)")
@@ -24,9 +33,7 @@ struct ContentView: View {
             .onDelete(perform: deleteItems)
         }
         .toolbar {
-            #if os(iOS)
             EditButton()
-            #endif
 
             Button(action: addItem) {
                 Label("Add Item", systemImage: "plus")

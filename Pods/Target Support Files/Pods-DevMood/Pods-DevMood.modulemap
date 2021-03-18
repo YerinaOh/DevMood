@@ -1,0 +1,6 @@
+framework module Pods_DevMood {
+  umbrella header "Pods-DevMood-umbrella.h"
+
+  export *
+  module * { export * }
+}
