@@ -30,14 +30,14 @@ final class ViewModel: ViewModelType {
                 .empty()
             })
         
-        self.tap
-            .withLatestFrom(model)
-            .map { model -> Model in
-                var nextModel = model
-                nextModel.number += 1
-                return nextModel
-            }.bind(to: self.model)
-             .disposed(by: disposeBag)
+//        self.tap
+//            .withLatestFrom(model)
+//            .map { model -> Model in
+//                var nextModel = model
+//                nextModel.number += 1
+//                return nextModel
+//            }.bind(to: self.model)
+//             .disposed(by: disposeBag)
     }
 }
     
