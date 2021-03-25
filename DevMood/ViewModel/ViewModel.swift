@@ -38,7 +38,7 @@ final class ViewModel: ViewModelType {
 //                return nextModel
 //            }.bind(to: self.model)
 //             .disposed(by: disposeBag)
-    }
+//    }
 }
     
 //  // input
