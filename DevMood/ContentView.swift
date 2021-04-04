@@ -11,77 +11,33 @@ import RxSwift
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    var title: String = "null"
 
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
-
-    var viewModel: ViewModelType
-    var disposeBag = DisposeBag()
-    
-    init(viewModel: ViewModelType) {
-        self.viewModel = viewModel
-    }
-    
     var body: some View {
-        Text("moodd")
-        List {
-            ForEach(items) { item in
-                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-            }
-            .onDelete(perform: deleteItems)
+        
+        Text(title)
+        Button("GOOD") {
+            
         }
-        .toolbar {
-            EditButton()
-
-            Button(action: addItem) {
-                Label("Add Item", systemImage: "plus")
-            }
+        Button("GOOD") {
+            
+        }
+        Button("GOOD") {
+            
         }
     }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+    
+    var viewModel: AnnounceViewModel! {
+        didSet {
+          self.viewModel.moodDidChange = { vm in
+            self.title = vm.announce ?? ""
+          }
         }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
+      }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView(viewModel: AnnounceViewModel(mood: Mood(count: 10)))
     }
 }
